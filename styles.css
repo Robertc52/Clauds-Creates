@@ -1031,6 +1031,12 @@ body.fit-screen .footer { padding: 12px 40px 14px; }
   .header-inner { padding: 0 16px; }
   .brand-name { font-size: 16px; letter-spacing: 0.08em; }
   .brand-sub { display: none; }
+  .hero {
+    overflow: visible;
+    z-index: 2;
+    background-position: 34% 18%;
+  }
+  .highlights { position: relative; z-index: 1; padding-top: 150px; }
   .pillars { grid-template-columns: 1fr; gap: 32px; }
   .highlights,
   .section-head,
@@ -1055,11 +1061,13 @@ body.fit-screen .footer { padding: 12px 40px 14px; }
     max-width: none;
     margin-left: -48px;
     margin-top: -5px;
+    margin-bottom: -96px;
     padding: 6px 0 28px;
     perspective: none;
     overflow: hidden;
     transform: rotateZ(-5deg);
     transform-origin: 100% 0;
+    z-index: 4;
   }
   .filmstrip {
     margin-left: 0;
