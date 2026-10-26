@@ -1,3 +1,4 @@
+function initSite() {
 const header = document.querySelector(".header");
 const nav = document.querySelector("#nav");
 const menuToggle = document.querySelector("#menu-toggle");
@@ -129,7 +130,9 @@ if (form) {
       "",
       String(data.get("message") || "")
     ];
-    mailtoLink.href = `mailto:?subject=${encodeURIComponent(`Wedding enquiry — ${data.get("name")}`)}&body=${encodeURIComponent(lines.join("\n"))}`;
+    const to = window.CMS_STATE && window.CMS_STATE.contactEmail ? window.CMS_STATE.contactEmail : "";
+    const subjectPrefix = window.CMS_STATE && window.CMS_STATE.enquirySubject ? window.CMS_STATE.enquirySubject : "Wedding enquiry";
+    mailtoLink.href = `mailto:${to}?subject=${encodeURIComponent(`${subjectPrefix} — ${data.get("name")}`)}&body=${encodeURIComponent(lines.join("\n"))}`;
     form.hidden = true;
     thanks.hidden = false;
   });
@@ -209,3 +212,5 @@ if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
   slideTargets.forEach((el) => el.classList.add("is-in"));
   document.querySelectorAll(".shot").forEach((shot) => shot.classList.add("is-in"));
 }
+}
+window.initSite = initSite;
