@@ -1051,8 +1051,9 @@ body.fit-screen .footer { padding: 12px 40px 14px; }
   .shot { min-width: 0; max-width: 100%; }
   .film-wrap {
     --frame: calc((100cqi - 8px) / 1.85);
-    width: 100%;
-    max-width: 100%;
+    width: calc(100% + 48px);
+    max-width: none;
+    margin-left: -48px;
     margin-top: -5px;
     padding: 6px 0 28px;
     perspective: none;
