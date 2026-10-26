@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>document.documentElement.classList.add("js")</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio | Clauds Creates</title>
+  <meta name="description" content="A fuller look at the wedding photographs and films Claude creates.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Great+Vibes&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="assets/logo.png">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+
+  <header class="header" id="top">
+    <div class="header-inner">
+      <a class="brand" href="index.html">
+        <img class="brand-mark" src="assets/logo.png" alt="">
+        <span class="brand-text">
+          <span class="brand-name">Clauds Creates</span>
+          <span class="brand-sub">Wedding content creation</span>
+        </span>
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="portfolio.html" aria-current="page">Portfolio</a>
+        <a href="kind-words.html">Kind Words</a>
+        <a href="enquire.html">Enquire</a>
+      </nav>
+
+      <div class="header-tools">
+        <div class="social">
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"></circle></svg>
+          </a>
+          <a href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4v11.2a3.2 3.2 0 1 1-2.4-3.1V9.2A6.4 6.4 0 0 0 14 10V7.1A6.8 6.8 0 0 0 17.6 8V5.2A4.2 4.2 0 0 1 14 4z"></path></svg>
+          </a>
+          <a href="enquire.html" aria-label="Email Claude">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M4 7l8 6 8-6"></path></svg>
+          </a>
+        </div>
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="nav">
+          <span class="visually-hidden">Menu</span>
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page" id="content">
+    <section class="portfolio" aria-labelledby="portfolio-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Portfolio</p>
+          <h2 class="display" id="portfolio-title">Moments<br>that matter</h2>
+        </div>
+      </div>
+
+      <div class="gallery">
+        <button class="shot" type="button">
+          <img src="assets/photos/car.jpg" alt="Bride and groom sharing a kiss as guests toss petals">
+          <span class="play" aria-hidden="true"></span>
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/photos/dress.jpg" alt="Bride and groom in a quiet portrait by the water">
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/photos/rings.jpg" alt="Wedding rings resting on blush roses">
+          <span class="play" aria-hidden="true"></span>
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/photos/aisle.jpg" alt="Couple watching the sun set over the water">
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/photos/ceremony.jpg" alt="Newlyweds celebrating beside the pool">
+          <span class="play" aria-hidden="true"></span>
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/photos/hands.jpg" alt="A bride and groom kissing on a windswept beach">
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/photos/details.jpg" alt="Two chairs marked Forever and Always">
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/photos/venue.jpg" alt="A reception table set with flowers in glass vases">
+          <span class="play" aria-hidden="true"></span>
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/photos/sunset.jpg" alt="A bridal bouquet hanging from a ceremony arch">
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/photos/flatlay.jpg" alt="Flowers lining the aisle toward the ceremony">
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Clauds Creates</p>
+    <p>Wedding content creation</p>
+  </footer>
+
+  <div class="lightbox" id="lightbox" hidden>
+    <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Close photo">×</button>
+    <figure>
+      <img id="lightbox-img" alt="">
+      <figcaption id="lightbox-caption"></figcaption>
+    </figure>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
