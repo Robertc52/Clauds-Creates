@@ -1053,16 +1053,18 @@ body.fit-screen .footer { padding: 12px 40px 14px; }
     --frame: calc((100cqi - 8px) / 1.85);
     width: 100%;
     max-width: 100%;
-    margin-top: 4px;
-    padding: 40px 0 36px;
-    perspective: 980px;
-    perspective-origin: 40% 120%;
+    margin-top: -5px;
+    padding: 6px 0 28px;
+    perspective: none;
+    overflow: hidden;
+    transform: rotateZ(-5deg);
+    transform-origin: 100% 0;
   }
   .filmstrip {
-    margin-left: -6%;
-    transform: rotateX(10deg) rotateY(-10deg) rotateZ(-4deg) translateX(var(--shift));
-    transform-origin: calc(100cqi * 0.22) 78%;
-    transform-style: preserve-3d;
+    margin-left: 0;
+    transform: translateX(var(--shift));
+    transform-origin: 0 0;
+    transform-style: flat;
   }
   .frame {
     height: 196px;
