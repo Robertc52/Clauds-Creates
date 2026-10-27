@@ -1221,6 +1221,7 @@ body.fit-screen .footer { padding: 12px 40px 14px; }
   .quotes-list { padding-left: 20px; padding-right: 20px; }
   .quotes-list .quote-card { width: min(760px, 88%); }
   .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  body[data-page="home"] #gallery .shot:nth-child(n + 5) { display: none; }
   .about,
   .services,
   .highlights { grid-template-columns: minmax(0, 1fr); }
