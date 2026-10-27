@@ -136,7 +136,7 @@ await client.createOrReplace({
   servicesButton: "View packages",
   servicesImage: assets.ceremony,
   aboutEyebrow: "About me",
-  aboutTitle: "Hi, I’m Claude.",
+  aboutTitle: "Hi, Im Clauds",
   aboutParagraphs: [
     "I’m a wedding content creator with a passion for capturing the real, unfiltered moments. I love the energy, the emotion and the little details that make each day unique. My goal is to create timeless content that lets you relive your wedding exactly as it felt.",
     "I stay close and quiet, then shape the day into photographs and films that feel like the room did. I work with couples who want the real story — the laugh you didn’t know was caught, the look across the table, the song you will play again."
@@ -159,7 +159,7 @@ await client.createOrReplace({
   _id: "aboutPage",
   _type: "aboutPage",
   eyebrow: "About me",
-  title: "Hi, I’m Clauds.",
+  title: "Hi, Im Clauds",
   paragraphs: [
     "I’m a wedding content creator with a passion for capturing the real, unfiltered moments that make your wedding day uniquely yours. From the nervous excitement of the morning preparations to the happy tears, spontaneous laughter and unforgettable moments on the dance floor, I believe the most beautiful memories are often found in the little things you never planned.",
     "For me, wedding content is about more than capturing how your day looked. It’s about preserving how it felt. The butterflies before walking down the aisle, the look you share when you think nobody is watching, the laughter between your favourite people and the fleeting moments that pass in the blink of an eye. These are the memories that deserve to be held onto, revisited and treasured for years to come.",
