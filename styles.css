@@ -24,6 +24,7 @@ html {
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: #c9b39d transparent;
+  overflow-x: clip;
 }
 
 ::-webkit-scrollbar { width: 14px; height: 14px; }
@@ -1140,6 +1141,24 @@ body.fit-screen .footer { padding: 12px 40px 14px; }
     gap: 12px;
   }
   .scribble { position: static; transform: rotate(-6deg); }
+}
+
+@media (min-width: 1101px) {
+  .hero {
+    min-height: 0;
+    overflow: visible;
+    z-index: 2;
+  }
+  .film-wrap {
+    margin-bottom: -110px;
+    overflow: visible;
+    z-index: 4;
+  }
+  .highlights {
+    position: relative;
+    z-index: 1;
+    padding-top: 108px;
+  }
 }
 
 @media (max-width: 1100px) {
