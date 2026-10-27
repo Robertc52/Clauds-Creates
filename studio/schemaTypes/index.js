@@ -84,7 +84,7 @@ const homePage = defineType({
     defineField({
       name: "reel",
       title: "Photo reel",
-      description: "The diagonal photographs. Drag to reorder. The site repeats this set so the reel loops without a gap.",
+      description: "Not used on the site. The homepage reel is filled with the 10 portfolio photographs added most recently.",
       type: "array",
       group: "hero",
       of: [
@@ -239,8 +239,8 @@ const portfolioItem = defineType({
     defineField({name: "slug", title: "Slug", type: "slug", options: {source: "title"}}),
     defineField({name: "description", title: "Description", type: "text", rows: 3}),
     imageField("image", "Photograph", "The image shown in the portfolio."),
-    defineField({name: "order", title: "Order", type: "number", description: "Lower numbers appear first.", initialValue: 0}),
-    defineField({name: "featured", title: "Show on the homepage", type: "boolean", initialValue: false}),
+    defineField({name: "order", title: "Order", type: "number", description: "Lower numbers appear first on the portfolio page. The homepage uses the date a photograph was added.", initialValue: 0}),
+    defineField({name: "featured", title: "Show on the homepage", type: "boolean", description: "Not used. The homepage reel uses the 10 newest photographs, and Moments that matter uses the next 5.", initialValue: false}),
     defineField({name: "showPlay", title: "Show the play mark", type: "boolean", initialValue: false})
   ],
   orderings: [{title: "Display order", name: "orderAsc", by: [{field: "order", direction: "asc"}]}],
@@ -274,7 +274,7 @@ const testimonial = defineType({
     defineField({name: "names", title: "Names", type: "string"}),
     defineField({name: "date", title: "Wedding date", type: "string", description: "Optional. Only shown if you fill it in."}),
     imageField("photo", "Photograph", "Optional photograph beside the quote."),
-    defineField({name: "order", title: "Order", type: "number", initialValue: 0})
+    defineField({name: "order", title: "Order", type: "number", description: "Not used. The newest testimonials appear first. The homepage shows 10 of them.", initialValue: 0})
   ],
   orderings: [{title: "Display order", name: "orderAsc", by: [{field: "order", direction: "asc"}]}],
   preview: {select: {title: "names", subtitle: "headline", media: "photo"}}

@@ -22,16 +22,15 @@
       "home": *[_id == "homePage"][0]{
         ...,
         heroBackground${img},
-        reel[]{alt, monochrome, "url": image.asset->url},
         servicesImage${img},
         aboutPhoto${img},
         polaroidBack${img},
         polaroidFront${img},
         enquireBackground${img}
       },
-      "portfolio": *[_type == "portfolioItem" && featured == true] | order(order asc){title, description, showPlay, image${img}},
+      "portfolio": *[_type == "portfolioItem" && defined(image.asset)] | order(_createdAt desc)[0...15]{title, description, showPlay, image${img}},
       "packages": *[_type == "servicePackage"] | order(order asc),
-      "testimonials": *[_type == "testimonial"] | order(order asc){..., photo${img}},
+      "testimonials": *[_type == "testimonial"] | order(_createdAt desc)[0...10]{..., photo${img}},
       "words": *[_id == "kindWordsPage"][0],
       "enquiry": *[_id == "enquiryPage"][0]
     }`,
@@ -52,7 +51,7 @@
     "kind-words": `{
       "settings": *[_id == "siteSettings"][0]{..., shareImage${img}},
       "words": *[_id == "kindWordsPage"][0],
-      "testimonials": *[_type == "testimonial"] | order(order asc){..., photo${img}}
+      "testimonials": *[_type == "testimonial"] | order(_createdAt desc){..., photo${img}}
     }`,
     enquire: `{
       "settings": *[_id == "siteSettings"][0]{..., shareImage${img}},
@@ -196,8 +195,8 @@
   }
 
   function renderShots(gallery, items) {
-    const usable = (items || []).filter((item) => item && item.image && item.image.url);
-    if (!gallery || !usable.length) return;
+    if (!gallery || !Array.isArray(items)) return;
+    const usable = items.filter((item) => item && item.image && item.image.url);
     gallery.replaceChildren();
     usable.forEach((item) => {
       const button = document.createElement("button");
@@ -419,14 +418,18 @@
         }
       }
       photoVar("--hero-image", home.heroBackground, 2000);
-      renderReel(home.reel);
+      const recentPhotos = Array.isArray(data.portfolio) ? data.portfolio : [];
+      renderReel(recentPhotos.slice(0, 10).map((item) => ({
+        url: item.image && item.image.url,
+        alt: (item.image && item.image.alt) || item.title || ""
+      })));
       lines(document.querySelector("#highlights-title"), [home.highlightsTitle1, home.highlightsTitle2]);
       text(document.querySelector(".highlights-intro p"), home.highlightsIntro);
       renderPillars(home.pillars);
       text(document.querySelector(".portfolio .eyebrow"), home.portfolioEyebrow);
       lines(document.querySelector("#portfolio-title"), [home.portfolioTitle1, home.portfolioTitle2]);
       buttonLabel(document.querySelector(".portfolio .text-link"), home.portfolioLink);
-      renderShots(document.querySelector("#gallery"), data.portfolio);
+      renderShots(document.querySelector("#gallery"), recentPhotos.slice(10, 15));
       text(document.querySelector(".services .eyebrow"), home.servicesEyebrow);
       lines(document.querySelector("#services-title"), [home.servicesTitle1, home.servicesTitle2]);
       text(document.querySelector(".services-copy p"), home.servicesBody);

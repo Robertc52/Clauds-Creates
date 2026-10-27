@@ -1081,7 +1081,6 @@ body.fit-screen .footer { padding: 12px 40px 14px; }
     border-radius: 12px;
   }
   .frame img { border-radius: 9px; }
-  body[data-page="home"] #gallery .shot:nth-child(n + 5) { display: none; }
   .quotes {
     grid-template-columns: 1fr auto auto 1fr;
     grid-template-areas:
