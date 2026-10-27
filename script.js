@@ -1,4 +1,5 @@
 function initSite() {
+mountGlassDates();
 const header = document.querySelector(".header");
 const nav = document.querySelector("#nav");
 const menuToggle = document.querySelector("#menu-toggle");
@@ -88,6 +89,7 @@ if (track && quotePrev && quoteNext) {
   }
 
   function renderQuotes() {
+    if (!cards.length) return;
     const visible = perView();
     const max = Math.max(0, cards.length - visible);
     quoteIndex = Math.min(quoteIndex, max);
@@ -106,6 +108,155 @@ if (track && quotePrev && quoteNext) {
   quoteNext.addEventListener("click", () => stepQuotes(1));
   window.addEventListener("resize", renderQuotes);
   renderQuotes();
+}
+
+function mountGlassDates() {
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const weekdays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+
+  function parseISO(value) {
+    const [year, month, day] = value.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  }
+
+  function iso(date) {
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${date.getFullYear()}-${month}-${day}`;
+  }
+
+  document.querySelectorAll(".enquiry-form input[type='date']").forEach((input) => {
+    if (input.dataset.glazed) return;
+    input.dataset.glazed = "true";
+    input.classList.add("date-native");
+
+    const wrap = document.createElement("div");
+    wrap.className = "date-glass";
+    const trigger = document.createElement("button");
+    trigger.type = "button";
+    trigger.className = "date-glass-trigger";
+    trigger.setAttribute("aria-haspopup", "dialog");
+    trigger.setAttribute("aria-expanded", "false");
+    const pop = document.createElement("div");
+    pop.className = "date-glass-pop";
+    pop.hidden = true;
+    pop.setAttribute("role", "dialog");
+    pop.setAttribute("aria-label", "Choose a wedding date");
+    wrap.append(trigger, pop);
+    input.after(wrap);
+
+    let view = new Date();
+
+    function paintTrigger() {
+      trigger.textContent = input.value
+        ? parseISO(input.value).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
+        : "Choose a date";
+      trigger.classList.toggle("is-empty", !input.value);
+    }
+
+    function render() {
+      pop.replaceChildren();
+      const head = document.createElement("div");
+      head.className = "date-glass-head";
+      const prev = document.createElement("button");
+      prev.type = "button";
+      prev.className = "date-glass-nav";
+      prev.setAttribute("aria-label", "Previous month");
+      prev.textContent = "‹";
+      const title = document.createElement("p");
+      title.className = "date-glass-title";
+      title.textContent = `${months[view.getMonth()]} ${view.getFullYear()}`;
+      const next = document.createElement("button");
+      next.type = "button";
+      next.className = "date-glass-nav";
+      next.setAttribute("aria-label", "Next month");
+      next.textContent = "›";
+      head.append(prev, title, next);
+      prev.addEventListener("click", () => {
+        view = new Date(view.getFullYear(), view.getMonth() - 1, 1);
+        render();
+      });
+      next.addEventListener("click", () => {
+        view = new Date(view.getFullYear(), view.getMonth() + 1, 1);
+        render();
+      });
+
+      const grid = document.createElement("div");
+      grid.className = "date-glass-grid";
+      weekdays.forEach((name) => {
+        const label = document.createElement("span");
+        label.className = "date-glass-dow";
+        label.textContent = name;
+        grid.append(label);
+      });
+
+      const firstWeekday = (new Date(view.getFullYear(), view.getMonth(), 1).getDay() + 6) % 7;
+      for (let i = 0; i < firstWeekday; i += 1) grid.append(document.createElement("span"));
+
+      const today = new Date();
+      const todayValue = iso(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
+      const days = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
+      for (let day = 1; day <= days; day += 1) {
+        const date = new Date(view.getFullYear(), view.getMonth(), day);
+        const value = iso(date);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "date-glass-day";
+        button.textContent = String(day);
+        if (value === input.value) button.classList.add("is-selected");
+        if (value === todayValue) button.classList.add("is-today");
+        button.addEventListener("click", () => {
+          input.value = value;
+          paintTrigger();
+          close();
+          trigger.focus();
+        });
+        grid.append(button);
+      }
+      pop.append(head, grid);
+    }
+
+    function place() {
+      const triggerRect = trigger.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - triggerRect.bottom;
+      const spaceAbove = triggerRect.top;
+      pop.classList.toggle("is-up", spaceBelow < 340 && spaceAbove > spaceBelow);
+    }
+
+    function open() {
+      const selected = input.value ? parseISO(input.value) : new Date();
+      view = new Date(selected.getFullYear(), selected.getMonth(), 1);
+      render();
+      trigger.setAttribute("aria-expanded", "true");
+      pop.hidden = false;
+      place();
+    }
+
+    function close() {
+      pop.hidden = true;
+      trigger.setAttribute("aria-expanded", "false");
+    }
+
+    trigger.addEventListener("click", () => {
+      if (pop.hidden) open();
+      else close();
+    });
+    document.addEventListener("click", (event) => {
+      if (!wrap.contains(event.target)) close();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !pop.hidden) {
+        close();
+        trigger.focus();
+      }
+    });
+    if (input.form) {
+      input.form.addEventListener("reset", () => {
+        window.setTimeout(paintTrigger, 0);
+      });
+    }
+    paintTrigger();
+  });
 }
 
 const form = document.querySelector("#enquiry-form");
@@ -147,6 +298,8 @@ if (form) {
     });
   }
 }
+
+mountGlassDates();
 
 const slideTargets = [
   ...document.querySelectorAll(".highlights"),
