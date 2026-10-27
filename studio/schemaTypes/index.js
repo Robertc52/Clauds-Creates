@@ -232,16 +232,23 @@ const enquiryPage = defineType({
 
 const portfolioItem = defineType({
   name: "portfolioItem",
-  title: "Portfolio photograph",
+  title: "Portfolio item",
   type: "document",
   fields: [
     defineField({name: "title", title: "Title", type: "string", validation: (rule) => rule.required()}),
     defineField({name: "slug", title: "Slug", type: "slug", options: {source: "title"}}),
     defineField({name: "description", title: "Description", type: "text", rows: 3}),
-    imageField("image", "Photograph", "The image shown in the portfolio."),
-    defineField({name: "order", title: "Order", type: "number", description: "Lower numbers appear first on the portfolio page. The homepage uses the date a photograph was added.", initialValue: 0}),
-    defineField({name: "featured", title: "Show on the homepage", type: "boolean", description: "Not used. The homepage reel uses the 10 newest photographs, and Moments that matter uses the next 5.", initialValue: false}),
-    defineField({name: "showPlay", title: "Show the play mark", type: "boolean", initialValue: false})
+    imageField("image", "Photograph", "The picture shown in the portfolio. If you add a video, this is the cover, and it is what the homepage reel shows."),
+    defineField({
+      name: "video",
+      title: "Video",
+      type: "file",
+      options: {accept: "video/mp4,video/webm,video/quicktime"},
+      description: "Optional. Use an MP4 so it plays on every phone. Opening the photograph plays this video. A cover photograph is needed for the homepage reel."
+    }),
+    defineField({name: "order", title: "Order", type: "number", description: "Lower numbers appear first on the portfolio page. The homepage uses the date an item was added.", initialValue: 0}),
+    defineField({name: "featured", title: "Show on the homepage", type: "boolean", description: "Not used. The homepage reel uses the 10 newest items, and Moments that matter uses the next 5.", initialValue: false}),
+    defineField({name: "showPlay", title: "Show the play mark", type: "boolean", description: "Puts a play icon on the photograph. This is added automatically when a video is attached.", initialValue: false})
   ],
   orderings: [{title: "Display order", name: "orderAsc", by: [{field: "order", direction: "asc"}]}],
   preview: {select: {title: "title", media: "image"}}

@@ -18,27 +18,51 @@ nav.querySelectorAll("a").forEach((link) => {
 
 const lightbox = document.querySelector("#lightbox");
 const lightboxImg = document.querySelector("#lightbox-img");
+const lightboxVideo = document.querySelector("#lightbox-video");
 const lightboxCaption = document.querySelector("#lightbox-caption");
 const lightboxClose = document.querySelector("#lightbox-close");
 
-function openLightbox(src, alt) {
-  lightboxImg.src = src;
-  lightboxImg.alt = alt;
-  lightboxCaption.textContent = alt;
+function stopLightboxVideo() {
+  if (!lightboxVideo) return;
+  lightboxVideo.pause();
+  lightboxVideo.removeAttribute("src");
+  lightboxVideo.load();
+  lightboxVideo.hidden = true;
+}
+
+function openLightbox(src, alt, videoUrl) {
+  lightboxCaption.textContent = alt || "";
+  if (videoUrl && lightboxVideo) {
+    lightboxImg.hidden = true;
+    lightboxImg.removeAttribute("src");
+    lightboxVideo.hidden = false;
+    lightboxVideo.src = videoUrl;
+    const play = lightboxVideo.play();
+    if (play && play.catch) play.catch(() => {});
+  } else {
+    stopLightboxVideo();
+    lightboxImg.hidden = false;
+    lightboxImg.src = src;
+    lightboxImg.alt = alt || "";
+  }
   lightbox.hidden = false;
   lightboxClose.focus();
 }
 
 function closeLightbox() {
   lightbox.hidden = true;
-  lightboxImg.src = "";
+  lightboxImg.removeAttribute("src");
+  lightboxImg.alt = "";
+  stopLightboxVideo();
 }
 
 if (lightbox) {
   document.querySelectorAll(".shot").forEach((shot) => {
     shot.addEventListener("click", () => {
       const img = shot.querySelector("img");
-      openLightbox(img.src, img.alt);
+      const preview = shot.querySelector("video");
+      const alt = img ? img.alt : (preview ? preview.getAttribute("aria-label") : "");
+      openLightbox(img ? img.src : "", alt, shot.dataset.video || "");
     });
   });
 

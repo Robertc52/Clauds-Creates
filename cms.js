@@ -28,7 +28,7 @@
         polaroidFront${img},
         enquireBackground${img}
       },
-      "portfolio": *[_type == "portfolioItem" && defined(image.asset)] | order(_createdAt desc)[0...15]{title, description, showPlay, image${img}},
+      "portfolio": *[_type == "portfolioItem" && (defined(image.asset) || defined(video.asset))] | order(_createdAt desc)[0...15]{title, description, showPlay, image${img}, "videoUrl": video.asset->url},
       "packages": *[_type == "servicePackage"] | order(order asc),
       "testimonials": *[_type == "testimonial"] | order(_createdAt desc)[0...10]{..., photo${img}},
       "words": *[_id == "kindWordsPage"][0],
@@ -46,7 +46,7 @@
     portfolio: `{
       "settings": *[_id == "siteSettings"][0]{..., shareImage${img}},
       "portfolioPage": *[_id == "portfolioPage"][0],
-      "portfolio": *[_type == "portfolioItem" && defined(image.asset)] | order(order asc){title, description, showPlay, image${img}}
+      "portfolio": *[_type == "portfolioItem" && (defined(image.asset) || defined(video.asset))] | order(order asc){title, description, showPlay, image${img}, "videoUrl": video.asset->url}
     }`,
     "kind-words": `{
       "settings": *[_id == "siteSettings"][0]{..., shareImage${img}},
@@ -196,17 +196,29 @@
 
   function renderShots(gallery, items) {
     if (!gallery || !Array.isArray(items)) return;
-    const usable = items.filter((item) => item && item.image && item.image.url);
+    const usable = items.filter((item) => item && ((item.image && item.image.url) || item.videoUrl));
     gallery.replaceChildren();
     usable.forEach((item) => {
       const button = document.createElement("button");
       button.className = "shot";
       button.type = "button";
-      const image = document.createElement("img");
-      image.src = imageUrl(item.image, 1000);
-      image.alt = item.image.alt || item.title || "";
-      button.append(image);
-      if (item.showPlay) {
+      const label = (item.image && item.image.alt) || item.title || "";
+      if (item.image && item.image.url) {
+        const image = document.createElement("img");
+        image.src = imageUrl(item.image, 1000);
+        image.alt = label;
+        button.append(image);
+      } else {
+        const preview = document.createElement("video");
+        preview.src = `${item.videoUrl}#t=0.1`;
+        preview.muted = true;
+        preview.playsInline = true;
+        preview.preload = "metadata";
+        preview.setAttribute("aria-label", label);
+        button.append(preview);
+      }
+      if (item.videoUrl) button.dataset.video = item.videoUrl;
+      if (item.showPlay || item.videoUrl) {
         const play = document.createElement("span");
         play.className = "play";
         play.setAttribute("aria-hidden", "true");
